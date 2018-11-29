@@ -1,0 +1,23 @@
+<!--  Dicas de funcionamento. apague se for nessario -->
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link href="../static/css/style.css" th:href="@{css/style.css}" rel="stylesheet" media="screen">
+	</head>
+	<body>
+		<h1 style="color:red;">IndexController</h1>
+		<p>Toda request ao '/' leva até aqui</p>
+		
+		<p>
+			Isso se deve ao <strong style="color:red;">@RequestMapping("/")</strong> que tem a funçao de mapear a funçao a um url como
+			ex. /jogos ou /eventos
+		</p>
+		
+		<p>
+			O <strong style="color:red;">@Controller</strong> fala para o Spring que é um controlador, no spring nos tems os 
+			<strong style="color:red;">@RestController</strong> e o <strong style="color:red;">@Controller</strong> basicamente um leva para um view no template e o outro faz alguma coisa bem rudimentarmente explicado
+		</p>
+		
+		<p>Menu de configuração H2(Database Manager): http://localhost:8080/h2-console/</p>
+	</body>
+</html>

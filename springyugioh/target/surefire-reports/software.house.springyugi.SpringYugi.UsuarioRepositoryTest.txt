@@ -1,0 +1,14 @@
+-------------------------------------------------------------------------------
+Test set: software.house.springyugi.SpringYugi.UsuarioRepositoryTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.011 s <<< FAILURE! - in software.house.springyugi.SpringYugi.UsuarioRepositoryTest
+testSaveUsuario(software.house.springyugi.SpringYugi.UsuarioRepositoryTest)  Time elapsed: 0.009 s  <<< ERROR!
+org.springframework.dao.DataIntegrityViolationException: could not execute statement; SQL [n/a]; constraint [null]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at software.house.springyugi.SpringYugi.UsuarioRepositoryTest.testSaveUsuario(UsuarioRepositoryTest.java:59)
+Caused by: org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at software.house.springyugi.SpringYugi.UsuarioRepositoryTest.testSaveUsuario(UsuarioRepositoryTest.java:59)
+Caused by: org.h2.jdbc.JdbcSQLException: 
+NULL not allowed for column "TIPO"; SQL statement:
+insert into carta (descricao, imagem, nome, raridade, tipo, id) values (?, ?, ?, ?, ?, ?) [23502-197]
+	at software.house.springyugi.SpringYugi.UsuarioRepositoryTest.testSaveUsuario(UsuarioRepositoryTest.java:59)
+

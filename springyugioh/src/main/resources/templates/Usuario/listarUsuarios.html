@@ -1,0 +1,23 @@
+<html xmlns:th="http://thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	<head>
+	</head>
+	
+	<body>
+		<table>
+			<thead>
+				<th>Nome</th>
+				<th>Email</th>
+				<th>Imagem</th>
+			</thead>
+			
+			<tbody>
+				<tr th:each="usuario : ${usuarios}">
+					<td><a><span th:text="${usuario.nome}"></a></span></td>
+					<td><a><span th:text="${usuario.email}"></a></span></td>
+					<td><a><span th:text="${usuario.imagem}"></a></span></td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+</html>
