@@ -31,11 +31,7 @@ public class UsuarioController {
 	}
 	
 	@RequestMapping(value="Usuario/CadastrarUsuario" , method = RequestMethod.POST)
-	public ModelAndView formUsuario(Usuario usuario,HttpServletRequest request) {
-		//Model And View
-        ModelAndView mv = new ModelAndView();
-        String msg = "";
-        
+	public String formUsuario(Usuario usuario,HttpServletRequest request) {
         //Requisitando imagem mandada pelo usuario
         MultipartHttpServletRequest multiPartRequest = (MultipartHttpServletRequest) request;
         MultipartFile file = multiPartRequest.getFile("file");
@@ -43,27 +39,21 @@ public class UsuarioController {
         //Upload da imagem do usuario
         try {
         	if(!file.isEmpty()) {
+        		//Salvando a imagem
     			BufferedImage src = ImageIO.read(new ByteArrayInputStream(file.getBytes()));
-    			File destination = new File("src/main/resources/Usuario/imagem/"+file.getName());
+    			File destination = new File("src/main/resources/templates/Usuario/imagem/"+file.getName()+".png");
     			ImageIO.write(src,"png",destination);
-    		}else {msg = "Erro: Imagem vazia";}
+    			
+    			//Salvando o usuario
+    	        usuario.setImagem("src/main/resources/templates/Usuario/imagem/"+file.getName()+".png");
+    	        usuario.setSalt("123");	
+    	        usuario.setPontos(0);
+    	        ur.save(usuario);  
+    		}
+        	return "Usuario/sucessForm";
         } catch (Exception ex) {
-        	msg = "Erro:"+ex;
-        }
-        
-        if(msg == "") {
-        	//Salvando o usuario
-            usuario.setImagem("IMAGE");
-            usuario.setSalt("123");	
-            usuario.setPontos(0);
-            ur.save(usuario);
-            mv.setViewName("Usuario/sucessForm");
-        }else {
-        	mv.setViewName("Usuario/erroForm");
-        	mv.addObject(msg);
-        }
-        
-        return mv;
+        	return "Usuario/erroForm";
+        }  
 	}
 	
 	@RequestMapping("Usuario/listarUsuarios")
