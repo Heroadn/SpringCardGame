@@ -9,6 +9,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,17 +37,17 @@ public class UsuarioController {
         //Requisitando imagem mandada pelo usuario
         MultipartHttpServletRequest multiPartRequest = (MultipartHttpServletRequest) request;
         MultipartFile file = multiPartRequest.getFile("file");
-
         //Upload da imagem do usuario
         try {
         	if(!file.isEmpty()) {
         		//Salvando a imagem
     			BufferedImage src = ImageIO.read(new ByteArrayInputStream(file.getBytes()));
-    			File destination = new File("src/main/resources/templates/Usuario/imagem/"+file.getName()+".png");
+    			File destination =
+    					new File("src/main/resources/static/images/"+usuario.getNome()+usuario.getId()+".png");
     			ImageIO.write(src,"png",destination);
     			
     			//Salvando o usuario
-    	        usuario.setImagem("src/main/resources/templates/Usuario/imagem/"+file.getName()+".png");
+    	        usuario.setImagem("../images/"+usuario.getNome()+usuario.getId()+".png");
     	        usuario.setSalt("123");	
     	        usuario.setPontos(0);
     	        ur.save(usuario);  
