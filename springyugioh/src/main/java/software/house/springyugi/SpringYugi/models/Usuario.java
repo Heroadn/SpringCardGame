@@ -7,12 +7,14 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.Email;
 
 @Entity
 @Table(name = "usuario")
@@ -27,14 +29,12 @@ public class Usuario implements Serializable{
 	@Column(name = "nome", nullable = false) 
 	private String nome;
 	
+	@Email
 	@Column(name = "email", nullable = false) 
 	private String email;
 	
 	@Column(name = "imagem", nullable = false) 
 	private String imagem;
-	
-	@Column(name = "senha", nullable = false) 
-	private String senha;
 	
 	@Column(name = "salt", nullable = false) 
 	private String salt;
@@ -42,8 +42,13 @@ public class Usuario implements Serializable{
 	@Column(name = "pontos", nullable = false) 
 	private int pontos;
 	
-	@OneToMany(cascade = {CascadeType.ALL})
-	@JoinColumn(name = "Deck")
+	@Column(name = "senha", nullable = false) 
+	private String senha;
+	
+	@Transient
+	private String confirmPass;
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "usuario")
 	private List<Deck> decks = new ArrayList<>();
 
 	public long getId() {
@@ -101,6 +106,14 @@ public class Usuario implements Serializable{
 	public void setDecks(List<Deck> decks) {
 		this.decks = decks;
 	}
+	
+	public void addDeck(Deck deck) {
+		this.getDecks().add(deck);
+	}
+	
+	public boolean isDeckEmpty() {
+		return this.getDecks().isEmpty();
+	}
 
 	public String getEmail() {
 		return email;
@@ -108,6 +121,14 @@ public class Usuario implements Serializable{
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getConfirmPass() {
+		return confirmPass;
+	}
+
+	public void setConfirmPass(String confirmPass) {
+		this.confirmPass = confirmPass;
 	}
 	
 }

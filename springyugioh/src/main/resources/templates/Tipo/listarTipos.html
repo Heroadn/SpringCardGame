@@ -7,15 +7,15 @@
 		<table>
 			<thead>
 				<th>Nome</th>
-				<th>Email</th>
+				<th>Descicao</th>
 				<th>Imagem</th>
 			</thead>
 			
 			<tbody>
-				<tr th:each="usuario : ${usuarios}">
-					<td><a><span th:text="${usuario.nome}"></span></a></td>
-					<td><a><span th:text="${usuario.email}"></span></a></td>
-					<td><a><img th:src="@{${usuario.imagem}}"></a></td>
+				<tr th:each="tipo : ${tipos}">
+					<td><a><span th:text="${tipo.nome}"></span></a></td>
+					<td><a><span th:text="${tipo.descricao}"></span></a></td>
+					<td><a><img th:src="@{${tipo.imagem}}"></a></td>
 				</tr>
 			</tbody>
 		</table>

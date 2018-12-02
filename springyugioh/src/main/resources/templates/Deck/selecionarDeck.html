@@ -1,0 +1,14 @@
+<html xmlns:th="http://thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	<head>
+	</head>
+	
+	<body>
+		<h1>Selecione seu Deck</h1>
+		<div class="container">
+			<div th:each="deck : ${decks}">
+				<span th:text="${deck.nome}"></span>
+			</div>
+		</div>
+	</body>
+</html>

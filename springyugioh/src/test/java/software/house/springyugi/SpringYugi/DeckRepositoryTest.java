@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import software.house.springyugi.SpringYugi.models.Carta;
 import software.house.springyugi.SpringYugi.models.Deck;
+import software.house.springyugi.SpringYugi.models.Tipo;
+import software.house.springyugi.SpringYugi.models.Usuario;
 import software.house.springyugi.SpringYugi.repository.DeckRepository;
+import software.house.springyugi.SpringYugi.repository.UsuarioRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -20,6 +25,9 @@ public class DeckRepositoryTest {
 
 	@Autowired
 	private DeckRepository deckRepository;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 	
 	@Test
 	public void isDeckEmpty() {
@@ -29,14 +37,23 @@ public class DeckRepositoryTest {
 	
 	@Test
 	public void saveDeck() {
-		Deck deck = getDeck();
-		assertNotNull(deck.getId());
 		
-		//Salvando no banco de dados
+		//Usuario
+		Usuario usuario = getUsuario();
+		usuarioRepository.save(usuario);
+		
+		//Deck
+		Deck deck =	getDeck();
 		deckRepository.save(deck);
 		
-		//Verificando se o arquivo foi salvo
-		assertNotNull(deck.getId());
+		Usuario fromDBUsuario = usuarioRepository.findById(usuario.getId()).orElse(null);
+		Deck fromDBDeck = deckRepository.findById(deck.getId()).orElse(null);
+		
+		//Atualizando
+		fromDBUsuario.getDecks().add(fromDBDeck);
+		fromDBDeck.setUsuario(fromDBUsuario);
+		usuarioRepository.save(fromDBUsuario);
+		deckRepository.save(fromDBDeck);
 		
 		//Peguado o deck inserindo do Banco de dados
 		Deck fromDb = deckRepository.findById(deck.getId()).orElse(null);
@@ -66,17 +83,36 @@ public class DeckRepositoryTest {
 		}
 		
 		assertEquals(count, 1);
+		
+		Iterable<Usuario>  usuarios = usuarioRepository.findAll();
+		for(Usuario user : usuarios) {
+			System.out.println(user.getDecks().get(0).getNome());
+		}
+	}
+	
+	@Test
+	public void linkUserDeck() {
+		
 	}
 	
 	private Deck getDeck() {
 		Deck deck = new Deck();
 		deck.setNome("Deck de Teste");
 		deck.setDescricao("Deck generico");
-		deck.setImagem("images");
+		deck.setImagem("images");	
 		deck.getCartas().add(getCarta());
-		deck.getCartas().add(getCarta());
-		
 		return deck;
+	}
+	
+	public Usuario getUsuario() {
+		Usuario usuario = new Usuario();
+			usuario.setNome("Generico");
+			usuario.setEmail("Teste");
+			usuario.setImagem("Imagem");
+			usuario.setSenha("Senha");
+			usuario.setSalt("Salt");
+			usuario.setPontos(1000);
+		return usuario;
 	}
 	
 	private Carta getCarta() {
@@ -85,6 +121,16 @@ public class DeckRepositoryTest {
 		carta.setDescricao("Carta de Teste");
 		carta.setImagem("images");
 		carta.setRaridade("Super Rara");
+		carta.setTipo(getTipo());
 		return carta;
 	}
+	
+	private Tipo getTipo() {
+		Tipo tipo = new Tipo();
+		tipo.setNome("Fogo");
+		tipo.setDescricao("Descriçao generico");
+		tipo.setImagem("Image/images");
+		return tipo;
+	}
+	
 }

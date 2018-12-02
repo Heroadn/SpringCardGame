@@ -4,9 +4,10 @@
 	</head>
 	
 	<body>
-		<h1>Formulario de Tipos</h1>
+		<h2>Bemvindo <span th:text="${session.username}"></span></h2>
+		<h2><span th:text="${session.email}"></span></h2>
 		
-		<form name="formTipo"  enctype="multipart/form-data" method = "post">
+		<form name="formDeck"  enctype="multipart/form-data" method = "post">
 			Nome:<input type="text" name="nome"/>
 			Descricao:<input type="text" name="descricao"/>
 			Imagem:<input type="file" name="file"/>

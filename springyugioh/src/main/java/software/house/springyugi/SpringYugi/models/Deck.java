@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -34,6 +36,22 @@ public class Deck implements Serializable{
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Carta> cartas = new ArrayList<>();
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id")
+	private Usuario usuario;
+	
+	public Deck(long id, String nome, String descricao, String imagem, List<Carta> cartas) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.descricao = descricao;
+		this.imagem = imagem;
+		this.cartas = cartas;
+	}
+	
+	public Deck() {}
+	
 
 	public long getId() {
 		return id;
@@ -69,10 +87,18 @@ public class Deck implements Serializable{
 
 	public List<Carta> getCartas() {
 		return cartas;
-	}
+	}	
 
 	public void setCartas(List<Carta> cartas) {
 		this.cartas = cartas;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 	
 }

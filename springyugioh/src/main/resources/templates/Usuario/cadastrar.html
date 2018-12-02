@@ -1,0 +1,18 @@
+<html xmlns:th="http://thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	<head>
+	</head>
+	
+	<body>
+		<h1>Registrar-se</h1>
+		
+		<form name="formUsuario" enctype="multipart/form-data" method = "POST">
+			Nome:  <input required type="text" name="nome"/><br>
+			Email: <input required type="text" name="email"/><br>
+			Imagem:<input type="file" name="file"/><br>
+			Senha: <input required type="password" name="senha"/><br>
+			Confirm Pass:<input required type="password" name="confirmPass"/><br>
+			<input type="submit" value="Salvar"/><br>
+		</form>
+	</body>
+</html>
